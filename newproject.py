@@ -7,7 +7,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
 from groq import Groq
 
@@ -37,7 +37,8 @@ def split_text(full_text):
 
 # Step 3: Embed and upload to FAISS
 def upload_to_vector_db(docs, vector_db_path='faiss_index'):
-    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    # Make sure to set your OpenAI API key as an environment variable: OPENAI_API_KEY
+    embeddings = OpenAIEmbeddings()
     if os.path.exists(vector_db_path):
         vectordb = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=True)
         vectordb.add_documents(docs)
