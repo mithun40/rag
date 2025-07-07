@@ -3,9 +3,11 @@
 #pip install pypdf
 # pip install groq
 #curl -fsSL https://ollama.com/install.sh | sh
+# pip install camelot-py[cv]
+#pip install -U langchain-ollama
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
 import camelot
 from groq import Groq
@@ -60,7 +62,7 @@ def ask_question(vectordb, question, tablestext):
     combined_text = "\n\n".join([doc.page_content for doc in retriever]) + "\n\n" + tablestext
 
     # Call Groq LLM to get answer
-    client = Groq(api_key="YOUR_GROQ_API_KEY")  # replace with your real key
+    client = Groq(api_key="GROQAPIKEY")  # replace with your real key
     messages = [
         {"role": "system", "content": "From the content below, answer the user's question."},
         {"role": "user", "content": question + "\n\n" + combined_text}
@@ -73,6 +75,8 @@ def ask_question(vectordb, question, tablestext):
 if __name__ == "__main__":
     pdf_file = "researchpaper.pdf"  # Make sure this file exists in your current directory
     question = "What is this PDF about?"
+
+    print("Starting PDF processing pipeline...")
 
     # Step 1
     full_text, table_text = extract_text_and_tables(pdf_file)
