@@ -1,5 +1,6 @@
 # pip install langchain-community
 # pip install faiss-cpu
+#pip install pypdf
 # pip install groq
 #curl -fsSL https://ollama.com/install.sh | sh
 
@@ -63,7 +64,7 @@ def ask_question(vectordb, question, tablestext):
 
 # --- MAIN ---
 if __name__ == "__main__":
-    pdf_file = r"C:\Users\44754\Downloads\NewProject\researchpaper.pdf"
+    pdf_file = "researchpaper.pdf"  # Make sure this file exists in your current directory
     question = "What is this PDF about?"
 
     full_text, table_text = extract_text_and_tables(pdf_file)
